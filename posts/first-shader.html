@@ -24,12 +24,15 @@
             gap: 20px;
             align-items: center;
         }
+        h2 {
+            text-align: center;
+        }
         .shader-container {
-            width: 100%; /* Take full width */
+            width: 100%;
             position: relative;
             display: flex;
             justify-content: center;
-		margin-top: 20px;
+            margin-top: 10px;
         }
         iframe {
             width: 100%;
@@ -60,15 +63,18 @@
 </head>
 <body>
     <h1>wave01</h1>
-    <div class="container">
-        <div class="shader-container">
-            <h2>Live Shader</h2>
-            <div class="black-overlay"></div>
-            <iframe src="https://www.shadertoy.com/embed/WclXWj?gui=true&t=10&paused=false&muted=false&stats=false" allowfullscreen></iframe>
-        </div>
-        <div class="code-block">
-            <h2>Shader Code</h2>
-            <pre>
+    
+    <!-- Live Shader Heading (outside shader-container) -->
+    <h2>Live Shader</h2>
+    <div class="shader-container">
+        <div class="black-overlay"></div>
+        <iframe src="https://www.shadertoy.com/embed/WclXWj?gui=true&t=10&paused=false&muted=false&stats=false" allowfullscreen></iframe>
+    </div>
+
+    <!-- Shader Code -->
+    <h2>Shader Code</h2>
+    <div class="code-block">
+        <pre>
 #define moblur 4
 #define harmonic 25
 #define triangle 1 // comment this line out for only square
@@ -93,8 +99,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
     col=pow(col,vec3(1./2.2));
     fragColor=vec4(col,1.);
 }
-            </pre>
-        </div>
+        </pre>
     </div>
 </body>
 </html>
