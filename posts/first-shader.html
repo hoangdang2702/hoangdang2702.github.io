@@ -42,7 +42,7 @@
 
         /* Shader Container */
         .shader-container {
-            position: relative; /* Needed for overlay positioning */
+            position: relative;
             width: 100%;
         }
 
@@ -53,15 +53,15 @@
             display: block;
         }
 
-        /* Overlay to hide the view count */
+        /* Overlay to cover the entire top bar */
         .shader-overlay {
             position: absolute;
-            top: 10px;  
-            right: 10px; /* Adjust position exactly where the view counter is */
-            width: 50px; /* Just enough to cover the eye icon & number */
-            height: 20px;
+            top: 0;
+            left: 0;
+            width: 100%;  /* Stretch across the whole width */
+            height: 30px; /* Adjust height to fully cover the top bar */
             background: black; /* Matches background to hide it */
-            z-index: 10; /* Ensure it's on top */
+            z-index: 10;
         }
     </style>
 </head>
@@ -81,7 +81,7 @@ void main() {
         <h2>Live Shader</h2>
         <div class="shader-container">
             <iframe src="https://www.shadertoy.com/embed/WclXWj?gui=true&t=10&paused=false&muted=false&stats=false" allowfullscreen></iframe>
-            <div class="shader-overlay"></div> <!-- Overlay to hide the view count -->
+            <div class="shader-overlay"></div> <!-- Overlay covering the entire top bar -->
         </div>
     </div>
 
