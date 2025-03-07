@@ -3,26 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shader Blog</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" 
-          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/base16/dracula.min.css">
+    <title>Your Name - Shaders</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #121212;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 { color: #ffcc00; }
+        .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px; }
+        .thumbnail {
+            width: 200px; height: 200px;
+            background: #222;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none; color: white; font-weight: bold;
+            transition: 0.3s; border: 2px solid transparent;
+        }
+        .thumbnail:hover { border-color: #ffcc00; transform: scale(1.05); }
+    </style>
 </head>
 <body>
-    <header class="blog-header">
-        <h1 class="blog-title">Your Name</h1>
-        <p class="blog-description">Exploring the art of generative shaders</p>
-    </header>
-
-    <main class="blog-container">
-        <section class="post-grid" id="posts-grid">
-            <!-- Posts will be inserted here by JavaScript -->
-            <div class="loading">Loading shaders...</div>
-        </section>
-    </main>
-
-    <script src="scripts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script>
-    <script>hljs.highlightAll();</script>
+    <h1>Your Name</h1>
+    <p>Shader Developer | Sharing my experiments in real-time graphics</p>
+    <div class="grid">
+        <a href="posts/first-shader.html" class="thumbnail">First Shader</a>
+    </div>
 </body>
 </html>
