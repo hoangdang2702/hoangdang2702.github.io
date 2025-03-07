@@ -1,5 +1,5 @@
 tạo post mới:
-1. tạo file mới shader_n.html trong folder posts
+1. tạo file mới shader_n.html trong folder posts. Để ý ngừng pause shader embed.
 
 
 2. up thumbnail vào folder thumbnails
