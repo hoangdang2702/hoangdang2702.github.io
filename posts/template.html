@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shader Title</title>
+    <link rel="stylesheet" href="../styles.css">
+    <!-- Libraries -->
+    <link rel="stylesheet" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/base16/dracula.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <article class="post-content">
+        <h1>Shader Title</h1>
+        
+        <!-- Shader Embed -->
+        <div class="shader-container">
+            <iframe src="../assets/shaders/wave-demo.html"></iframe>
+        </div>
+
+        <!-- Math Example -->
+        <p>This shader uses the wave equation: 
+            \( \frac{\partial^2 u}{\partial t^2} = c^2 \nabla^2 u \)
+        </p>
+
+        <!-- Code Example -->
+        <pre><code class="language-glsl">
+        void main() {
+            vec2 uv = gl_FragCoord.xy/iResolution.xy;
+            float wave = sin(uv.x * 10.0 + iTime);
+            gl_FragColor = vec4(wave, 0.4, 0.6, 1.0);
+        }
+        </code></pre>
+
+        <a href="../">← Back to Home</a>
+    </article>
+
+    <script>hljs.highlightAll();</script>
+</body>
+</html>
