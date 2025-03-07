@@ -1,33 +1,95 @@
 :root {
-    --primary: #2A9D8F;
-    --background: #1D1F21;
-    --text: #F8F8F2;
+    --primary: #FF6B6B;
+    --secondary: #4ECDC4;
+    --background: #1A1A1A;
+    --text: #EDEDED;
+    --card-bg: #2A2A2A;
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    line-height: 1.6;
-    margin: 0 auto;
-    max-width: 1200px;
-    padding: 2rem;
+    font-family: 'Inter', system-ui, sans-serif;
     background: var(--background);
     color: var(--text);
+    line-height: 1.6;
+    margin: 0;
+    padding: 2rem;
 }
 
-.grid-container {
+.blog-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 2rem;
+}
+
+.blog-title {
+    font-size: 3rem;
+    margin: 0;
+    color: var(--primary);
+    letter-spacing: -0.05em;
+}
+
+.blog-description {
+    color: var(--secondary);
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+}
+
+.post-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
-    margin-top: 3rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .post-card {
-    background: #282A36;
-    border-radius: 8px;
-    padding: 1.5rem;
-    transition: transform 0.2s;
+    background: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+    display: block;
 }
 
 .post-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.post-thumbnail {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 3px solid var(--primary);
+}
+
+.post-content {
+    padding: 1.5rem;
+}
+
+.post-title {
+    margin: 0;
+    color: var(--primary);
+    font-size: 1.25rem;
+}
+
+.post-excerpt {
+    color: #999;
+    margin: 0.75rem 0;
+    font-size: 0.9rem;
+}
+
+.post-meta {
+    font-size: 0.8rem;
+    color: #666;
+    display: flex;
+    gap: 1rem;
+}
+
+.loading {
+    text-align: center;
+    grid-column: 1 / -1;
+    color: var(--secondary);
 }
