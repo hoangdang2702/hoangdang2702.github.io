@@ -3,75 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>First Shader</title>
+    <title>First Shader Experiment</title>
     <style>
-        body { font-family: sans-serif; background: #121212; color: white; padding: 20px; }
-        h1 { color: #ffcc00; }
-        pre { background: #222; padding: 10px; border-radius: 5px; overflow-x: auto; }
-        canvas { width: 100%; height: 400px; display: block; background: black; }
+        body { 
+            font-family: sans-serif; 
+            background: #121212; 
+            color: white; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: auto;
+        }
+        h1 { 
+            color: #ffcc00; 
+            font-size: 2em; 
+            text-align: center;
+        }
+        p { text-align: center; }
+        .code-block { 
+            background: #222; 
+            padding: 15px; 
+            border-radius: 5px; 
+            overflow-x: auto; 
+            font-family: monospace;
+            color: #ddd;
+        }
+        iframe {
+            width: 100%; 
+            height: 450px; 
+            border: none; 
+            display: block; 
+            margin: 20px auto;
+        }
+        .container {
+            background: black;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            color: #ffcc00;
+            text-decoration: none;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
     <h1>First Shader Experiment</h1>
-    <p>This is my first shader post!</p>
+    <p>Insert text here.</p>
 
-    <h2>Shader Code</h2>
-    <pre>
-        <code>
-        precision mediump float;
-        void main() {
-            gl_FragColor = vec4(1.0, 0.5, 0.0, 1.0);
-        }
-        </code>
-    </pre>
+    <div class="container">
+        <h2>Shader Code</h2>
+        <pre class="code-block">
+precision mediump float;
+void main() {
+    gl_FragColor = vec4(1.0, 0.5, 0.0, 1.0);
+}
+        </pre>
 
-    <h2>Live Shader</h2>
-    <canvas id="shaderCanvas"></canvas>
+        <h2>Live Shader</h2>
+        <iframe src="https://www.shadertoy.com/embed/WclXWj?gui=true&t=10&paused=true&muted=false" allowfullscreen></iframe>
+    </div>
 
-    <script>
-        const canvas = document.getElementById("shaderCanvas");
-        const gl = canvas.getContext("webgl");
-        if (!gl) alert("WebGL not supported");
-
-        const vertexShaderCode = `
-            attribute vec2 position;
-            void main() {
-                gl_Position = vec4(position, 0.0, 1.0);
-            }
-        `;
-        const fragmentShaderCode = `
-            precision mediump float;
-            void main() {
-                gl_FragColor = vec4(1.0, 0.5, 0.0, 1.0);
-            }
-        `;
-
-        function createShader(gl, type, source) {
-            const shader = gl.createShader(type);
-            gl.shaderSource(shader, source);
-            gl.compileShader(shader);
-            return shader;
-        }
-
-        const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderCode);
-        const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderCode);
-        const program = gl.createProgram();
-        gl.attachShader(program, vertexShader);
-        gl.attachShader(program, fragmentShader);
-        gl.linkProgram(program);
-        gl.useProgram(program);
-
-        const positionBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-            -1, -1, 1, -1, -1, 1,
-            -1, 1, 1, -1, 1, 1
-        ]), gl.STATIC_DRAW);
-
-        const positionLocation = gl.getAttribLocation(program, "position");
-        gl.enableVertexAttribArray(positionLocation);
-        gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
-        gl.drawArrays(gl.TRIANGLES, 0, 6);
-    </script>
+    <a href="index.html" class="back-link">⬅ Back to Home</a>
 </body>
 </html>
