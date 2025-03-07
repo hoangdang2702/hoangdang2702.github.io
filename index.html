@@ -13,14 +13,23 @@
             padding: 20px;
         }
         h1 { color: #ffcc00; }
-        .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px; }
+        .grid {
+            display: flex; flex-wrap: wrap;
+            justify-content: center; gap: 15px;
+            margin-top: 20px;
+        }
         .thumbnail {
             width: 200px; height: 200px;
-            background: #222;
             border-radius: 10px;
+            overflow: hidden;
             display: flex; align-items: center; justify-content: center;
-            text-decoration: none; color: white; font-weight: bold;
+            text-decoration: none;
             transition: 0.3s; border: 2px solid transparent;
+        }
+        .thumbnail img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
         }
         .thumbnail:hover { border-color: #ffcc00; transform: scale(1.05); }
     </style>
@@ -29,7 +38,9 @@
     <h1>Your Name</h1>
     <p>Shader Developer | Sharing my experiments in real-time graphics</p>
     <div class="grid">
-        <a href="posts/first-shader.html" class="thumbnail">First Shader</a>
+        <a href="posts/first-shader.html" class="thumbnail">
+            <img src="thumbnails/first-shader.jpg" alt="First Shader Thumbnail">
+        </a>
     </div>
 </body>
 </html>
