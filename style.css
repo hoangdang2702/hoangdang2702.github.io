@@ -1,1 +1,33 @@
+:root {
+    --primary: #2A9D8F;
+    --background: #1D1F21;
+    --text: #F8F8F2;
+}
 
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 2rem;
+    background: var(--background);
+    color: var(--text);
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.post-card {
+    background: #282A36;
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: transform 0.2s;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+}
