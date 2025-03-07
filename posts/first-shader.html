@@ -43,7 +43,7 @@
         /* Shader Container */
         .shader-container {
             position: relative; /* Needed for overlay positioning */
-            display: inline-block;
+            width: 100%;
         }
 
         .shader-container iframe {
@@ -56,11 +56,11 @@
         /* Overlay to hide the view count */
         .shader-overlay {
             position: absolute;
-            top: 0;  
-            right: 0; /* Align to the top-right where the view count is */
-            width: 50px; /* Cover the eye icon & number */
+            top: 10px;  
+            right: 10px; /* Adjust position exactly where the view counter is */
+            width: 50px; /* Just enough to cover the eye icon & number */
             height: 20px;
-            background: black; /* Hide it with a black box */
+            background: black; /* Matches background to hide it */
             z-index: 10; /* Ensure it's on top */
         }
     </style>
