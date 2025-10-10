@@ -1,153 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>fluid01</title>
-    <style>
-        body { 
-            font-family: sans-serif; 
-            background: #121212; 
-            color: white; 
-            padding: 20px; 
-            max-width: 1000px; 
-            margin: auto;
-        }
-        h1 { 
-            color: #ffcc00; 
-            font-size: 2em; 
-            text-align: center;
-        }
-        .container {
-            display: flex;
-            flex-direction: column; /* Stack elements vertically */
-            gap: 20px;
-            align-items: center;
-        }
-        h2 {
-            text-align: center;
-        }
-        .shader-container {
-            width: 100%;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
-        }
-        iframe {
-            width: 100%;
-            max-width: 800px; /* Limit width for better appearance */
-            height: 450px;
-            border: none;
-            display: block;
-        }
-        .black-overlay {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 1000px; /* Adjust width to cover view count */
-            height: 30px;
-            background: black;
-            z-index: 2;
-        }
-        .code-block {
-            width: 100%;
-            background: #222;
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-            font-family: monospace;
-            color: #ddd;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tiêu đề bài viết — Your Title</title>
+
+  <!-- ===== nhỏ gọn CSS cho post (dark mode) - không cần sửa style.css ===== -->
+  <style>
+    :root{
+      --bg:#121212; --panel:#0f0f10; --muted:#bdbdbd; --accent:#ffcc00; --codebg:#1e1e1e;
+    }
+    html,body{
+      margin:0;
+      padding:0;
+      background:var(--bg);
+      color:var(--muted);
+      font-family:Inter, "Segoe UI", Roboto, sans-serif;
+    }
+    .wrap{
+      max-width:900px;
+      margin:60px auto;
+      padding:22px;
+    }
+    a.back{
+      color:var(--accent);
+      text-decoration:none;
+      display:inline-block;
+      margin-bottom:16px;
+    }
+    h1{
+      color:var(--accent);
+      margin:6px 0 10px 0;
+      font-size:1.9rem;
+    }
+    p.lead{
+      color:#d9d9d9;
+      margin-top:0;
+      margin-bottom:18px;
+      text-align:justify;
+      line-height:1.6;
+    }
+    .section{
+      background:transparent;
+      margin:18px 0;
+    }
+    .post-image{
+      display:block;
+      margin:14px auto;
+      border-radius:10px;
+      max-width:100%;
+      height:auto;
+      box-shadow:0 6px 18px rgba(0,0,0,0.5);
+    }
+    .code-snippet{
+      background:var(--codebg);
+      padding:12px;
+      border-radius:8px;
+      overflow:auto;
+      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+      color:#e6e6e6;
+      font-size:0.92rem;
+      line-height:1.45;
+      max-width:720px; /* <-- hẹp thôi */
+      margin:12px 0;
+    }
+    .code-snippet pre{margin:0;white-space:pre;}
+    h2{color:var(--accent);margin:14px 0 8px;}
+    footer{margin-top:28px;color:#9b9b9b;font-size:0.9rem;}
+    @media (max-width:640px){
+      .wrap{margin:28px 12px;padding:16px;}
+      .code-snippet{max-width:100%;}
+    }
+  </style>
 </head>
 <body>
-    <h1>oily rgb fluid</h1>
-    
-    <!-- Live Shader Heading (outside shader-container) -->
-    <h2>Live Shader (mouse interactive) </h2>
-    <div class="shader-container">
-        <div class="black-overlay"></div>
-        <iframe width="640" height="360" frameborder="0" src="https://www.shadertoy.com/embed/tfsXW2?gui=true&t=10&paused=false&muted=false" allowfullscreen></iframe>
+  <div class="wrap">
+
+    <!-- BACK TO HOME -->
+    <a class="back" href="../index.html">← Back to Home</a>
+
+    <!-- ===== TITLE / DESCRIPTION (VĂN BẢN) ===== -->
+    <h1><!-- TITLE: sửa nội dung giữa thẻ này -->Matrix Transform Notes<!-- /TITLE --></h1>
+    <p class="lead"><!-- TEXT BLOCK: mô tả ngắn / intro. Sửa đoạn này -->Ghi chú con vịt về matrix transform: tôi viết lại từng bước để hiểu rõ hơn.<!-- /TEXT BLOCK --></p>
+
+    <!-- ===== IMAGE BLOCK: nếu cần chèn ảnh minh hoạ ===== -->
+    <!-- IMAGE: upload ảnh vào repo (ví dụ: thumbnails/xxx.jpg hoặc assets/images/xxx.png)
+         rồi chỉnh thuộc tính src cho đúng đường dẫn (ví dụ src="../thumbnails/matrix.png" hoặc src="../assets/images/diag.png') -->
+    <img class="post-image" src="../thumbnails/matrix.png" alt="matrix diagram (thay đường dẫn nếu cần)">
+
+    <!-- ===== SECTION: normal text ===== -->
+    <div class="section">
+      <h2>1 — Translation</h2>
+      <p>Translation thêm một offset vào vị trí: công thức đơn giản là <code>newPos = oldPos + offset</code>. Ở không gian homogène (vec4), ta dùng ma trận 4×4 để biểu diễn dễ kết hợp.</p>
     </div>
 
-    <!-- Shader Code -->
-    <h2>Shader Code</h2>
-    <div class="code-block">
-        <pre>
-const float pi = 3.1415;
-const float pi2 = pi/2.0;
+    <!-- ===== SECTION: code snippet (hẹp) ===== -->
+    <div class="section">
+      <h2>Code snippet</h2>
 
-float random()
-{
-	return fract(sin(dot(gl_FragCoord.xy, vec2(12.9898,78.233))) * 43758.5453);  
+      <!-- CODE SNIPPET: Dán code GLSL / C++ / Python vào bên trong <pre> dưới đây.
+           Nếu code của bạn có dấu "<", hãy thay bằng "&lt;" để tránh lỗi HTML -->
+      <div class="code-snippet">
+        <pre><code>// GLSL example
+vec3 translate(vec3 p, vec3 off){
+    return p + off;
 }
 
-vec4 get_pixel(float x_offset, float y_offset)
-{
-	return texture(iChannel0, (gl_FragCoord.xy / iResolution.xy) + (vec2(x_offset, y_offset) / iResolution.xy));
-}
-
-float step_simulation()
-{
-	float val = get_pixel(0.0, 0.0).r;
-    
-    val += random()*val*0.15; // errosion
-    
-  	val = get_pixel(
-    	sin(get_pixel(val, 0.0).r  - get_pixel(-val, 0.0) + pi).r  * val * 0.4, 
-        cos(get_pixel(0.0, -val).r - get_pixel(0.0 , val) - pi2).r * val * 0.4
-   	).r;
-    
-    val *= 1.0001;
-    
-    return val;
-}
-
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
-{    
-    float val = step_simulation();
- 
-    if(iFrame == 0)
-        val = 
-        	random()*length(iResolution.xy)/100.0 + 
-        	smoothstep(length(iResolution.xy)/2.0, 0.5, length(iResolution.xy * 0.5 - fragCoord.xy))*25.0;
-    
-    if (iMouse.z > 0.0) 
-        val += smoothstep(length(iResolution.xy)/10.0, 0.5, length(iMouse.xy - fragCoord.xy));
-        
-    fragColor.r = val;
-}
-
-		
-void mainImage( out vec4 fragColor, in vec2 fragCoord )
-{
-    float val = texture(iChannel0, fragCoord/iResolution.xy).r;
- 
-   	//{fragColor = vec4(val,val,val,1.0); return;}
-    fragColor = vec4(val, val, val, 1.0);
-        
-    vec4 color = pow(vec4(cos(val), tan(val), sin(val), 1.0) * 0.5 + 0.5, vec4(0.5));
-    
-    // code below taken from
-    //https://www.shadertoy.com/view/Xsd3DB
-    
-    vec2 q = fragCoord.xy/iResolution.xy;
-    
-    vec3 e = vec3(vec2(1.0)/iResolution.xy,0.);
-    float p10 = texture(iChannel0, q-e.zy).x;
-    float p01 = texture(iChannel0, q-e.xz).x;
-    float p21 = texture(iChannel0, q+e.xz).x;
-    float p12 = texture(iChannel0, q+e.zy).x;
-        
-    vec3 grad = normalize(vec3(p21 - p01, p12 - p10, 1.));
-    vec3 light = normalize(vec3(.2,-.25,.7));
-    float diffuse = dot(grad,light);
-    float spec = pow(max(0.,-reflect(light,grad).z),32.0);
-    
-    fragColor = (color * diffuse) + spec;
-}
-        </pre>
+// mat4 version
+mat4 translation(vec3 t){
+    return mat4(
+        1.0, 0.0, 0.0, 0.0,
+        0.0, 1.0, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0,
+        t.x, t.y, t.z, 1.0
+    );
+}</code></pre>
+      </div>
     </div>
+
+    <!-- ===== THÊM CÁC PHẦN MỚI TƯƠNG TỰ (văn bản / ảnh / code) ===== -->
+    <div class="section">
+      <h2>2 — Rotation</h2>
+      <p>Ghi chú, giải thích, bước tính nhanh, v.v...</p>
+      <div class="code-snippet">
+        <pre><code>// rotate around Z
+mat2 rot(float a){
+  float c = cos(a), s = sin(a);
+  return mat2(c, -s, s, c);
+}</code></pre>
+      </div>
+    </div>
+
+    <footer>
+      <p>Posted — (ghi ngày nếu muốn)</p>
+    </footer>
+  </div>
 </body>
 </html>
