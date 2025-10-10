@@ -1,5 +1,5 @@
 tạo post mới:
-1. tạo file mới shader_n.html trong folder posts. Để ý ngừng pause shader embed.
+1. tạo file mới dựa trên template trong folder posts.
 
 
 2. up thumbnail vào folder thumbnails
@@ -8,4 +8,3 @@ tạo post mới:
     <img src="thumbnails/second-shader.jpg" alt="Second Shader Thumbnail">
 </a>
 
-đoạn này ở trong <div class="grid">
