@@ -1,52 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>not really an artist</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            background: #121212;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-        h1 { color: #ffcc00; }
-        .grid {
-            display: flex; flex-wrap: wrap;
-            justify-content: center; gap: 15px;
-            margin-top: 20px;
-        }
-        .thumbnail {
-            width: 200px; height: 200px;
-            border-radius: 10px;
-            overflow: hidden;
-            display: flex; align-items: center; justify-content: center;
-            text-decoration: none;
-            transition: 0.3s; border: 2px solid transparent;
-        }
-        .thumbnail img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-        .thumbnail:hover { border-color: #ffcc00; transform: scale(1.05); }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>not really an artist</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #121212;
+      color: white;
+      margin: 0;
+      padding-top: 140px; /* để chừa chỗ cho phần header cố định */
+    }
+
+    /* --- Header cố định trên cùng --- */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #121212;
+      text-align: center;
+      padding: 25px 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      z-index: 10;
+    }
+
+    header h1 {
+      color: #ffcc00;
+      margin: 0;
+    }
+
+    header p {
+      margin: 5px 0 0 0;
+      color: #ddd;
+      font-size: 1rem;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+      padding-bottom: 40px;
+    }
+
+    .post {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 20px;
+      background: #1e1e1e;
+      padding: 15px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 700px;
+      transition: transform 0.3s;
+    }
+
+    .post:hover {
+      transform: translateY(-4px);
+    }
+
+    .post img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .post-info {
+      flex: 1;
+      text-align: left;
+    }
+
+    .post-info h3 {
+      margin: 0;
+      color: #ffcc00;
+      font-size: 1.3rem;
+    }
+
+    .post-info p {
+      margin: 8px 0 0;
+      color: #ccc;
+    }
+
+    a {
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body>
+
+  <!-- Header cố định -->
+  <header>
     <h1>Nguyễn Hoàng Đăng</h1>
-    <p>i do tech art: focusing on shaders, rendering, optimization, look dev </p>
-    <h2>GLSL Shaders</h2>
-    <div class="grid">
-        <a href="posts/first-shader.html" class="thumbnail">
-            <img src="thumbnails/first-shader.jpg" alt="First Shader Thumbnail">
-        </a>
+    <p>i do tech art: focusing on shaders, rendering, optimization, look dev</p>
+    <h2 style="margin-top:10px;">GLSL Shaders</h2>
+  </header>
 
-        <a href="posts/second-shader.html" class="thumbnail">
-            <img src="thumbnails/second-shader.jpg" alt="Second Shader Thumbnail">
-        </a>
+  <!-- Danh sách bài post -->
+  <main>
+    <a href="posts/first-shader.html" class="post">
+      <img src="thumbnails/first-shader.jpg" alt="First Shader Thumbnail">
+      <div class="post-info">
+        <h3>First Shader</h3>
+        <p>Experiment with color contour mapping and smooth normals.</p>
+      </div>
+    </a>
 
-    </div>
+    <a href="posts/second-shader.html" class="post">
+      <img src="thumbnails/second-shader.jpg" alt="Second Shader Thumbnail">
+      <div class="post-info">
+        <h3>Second Shader</h3>
+        <p>Stylized edge distortion and color transition test.</p>
+      </div>
+    </a>
+  </main>
+
 </body>
 </html>
