@@ -82,13 +82,13 @@
     <!-- ===== TITLE / DESCRIPTION (VĂN BẢN) ===== -->
     <h1><!-- TITLE: sửa nội dung giữa thẻ này -->Build a CPU-based Rasterizer<!-- /TITLE --></h1>
     <p class="lead"><!-- TEXT BLOCK: mô tả ngắn / intro. Sửa đoạn này -->In my journey into graphics, 
-      I find it hard to follow Graphics API tutorials, such as learnopengl.com, for its tedious boilerplate code. 
-      I came across this recommendation by Eric Arnebäck, 
+      I find it hard to follow Graphics API tutorials, such as <b>learnopengl.com</b>, for its tedious boilerplate code. 
+      I came across this recommendation by <b>Eric Arnebäck</b>, 
       saying one should start by learning the pipeline first without any API by building a software rasterizer (CPU rasterizer) 
       and a software ray tracer (altho this one is heavily embarrassed by the absent of GPU paralleism). 
       We will start building a CPU rasterizer first, 
-      following the algorithm from this paper: [**Triangle Scan Conversion using 2D Homogeneous Coordinates**]
-      (https://www.csee.umbc.edu/~olano/papers/2dh-tri/) (there are many others method but I think this is the most well known). 
+      following the algorithm from this paper: <a href="https://www.csee.umbc.edu/~olano/papers/2dh-tri/" target="_blank">Triangle Scan Conversion using 2D Homogeneous Coordinates</a>
+       (there are many others method but I think this is the most well known). 
       We will build a ray tracer later on, as it will teach us all about lighting physics.<!-- /TEXT BLOCK --></p>
 
     <!-- ===== IMAGE BLOCK: nếu cần chèn ảnh minh hoạ ===== -->
@@ -148,12 +148,12 @@ v2 = TO_RASTER(v2);</code></pre>
     <div class="section">
       <p>Okay now we have the vertices of the triangle in raster-space. 
         In order to find the coordinates of the pixels that are in the triangle, 
-        we need to **find the condition that those pixels' coordinates need to match**. 
-        Then, we **loop through all the pixels on the screen** (millions of them) and calculate if their condition match.
+        we need to <b>find the condition that those pixels' coordinates need to match</b>. 
+        Then, we <b>loop through all the pixels on the screen</b> (millions of them) and calculate if their condition match.
         <br><br>Now let's go find that condition. 
         We already know from basic linear algebra that if the 3 vertices are independent and the plane that they are in doesn't have the space origin (0.0, 0.0, 0.0), 
         the linear combination of them can fill the whole 3D space.
-        **So we can think of the set of the vertices we are looking for is also linear combinations of those 3 vertices,** with some more additional information.
+        <b>So we can think of the set of the vertices we are looking for is also linear combinations of those 3 vertices,</b> with some more additional information.
       </p>
       </div>
     <img class="post-image" src="../images/ras1.png" alt="">
