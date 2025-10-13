@@ -94,7 +94,6 @@
     <!-- ===== IMAGE BLOCK: nếu cần chèn ảnh minh hoạ ===== -->
     <!-- IMAGE: upload ảnh vào repo (ví dụ: thumbnails/xxx.jpg hoặc assets/images/xxx.png)
          rồi chỉnh thuộc tính src cho đúng đường dẫn (ví dụ src="../thumbnails/matrix.png" hoặc src="../assets/images/diag.png') -->
-    <img class="post-image" src="../thumbnails/matrix.png" alt="matrix diagram (thay đường dẫn nếu cần)">
 
     <!-- ===== SECTION: normal text ===== -->
     <div class="section">
@@ -157,20 +156,20 @@ v2 = TO_RASTER(v2);</code></pre>
         **So we can think of the set of the vertices we are looking for is also linear combinations of those 3 vertices,** with some more additional information.
       </p>
       </div>
-    <img class="post-image" src="../thumbnails/matrix.png" alt="matrix diagram (thay đường dẫn nếu cần)">
+    <img class="post-image" src="../images/ras1.png" alt="">
     <div class="section">
       <p>Those linear combinations will be the component of the edge function, which is the condition we are going to find. 
         An edge function, is simply a way to know if the vertex is on which side of the triangle's edge. 
       </p>
       </div>
-    <img class="post-image" src="../thumbnails/matrix.png" alt="matrix diagram (thay đường dẫn nếu cần)">
-    <img class="post-image" src="../thumbnails/matrix.png" alt="matrix diagram (thay đường dẫn nếu cần)">
+    <img class="post-image" src="../images/ras2.png" alt="">
+    <img class="post-image" src="../images/ras3.png" alt="">
     <div class="section">
       <p>as you can see from the image above, for each edge of our triangle, we have 3 equations, which make it 9 equations in total. 
         Put them all together and we have this system of linear equations:
       </p>
       </div>
-    <img class="post-image" src="../thumbnails/matrix.png" alt="matrix diagram (thay đường dẫn nếu cần)">
+    <img class="post-image" src="../images/ras4.png" alt="">
     <div class="section">
       <p>To value of the unknown matrix is simply found by multiplying the Identity matrix with the inverse of M (our already known matrix). 
         That's it, we know how to tell if a vertex is within our triangle. Now we only need to loop them through every screen pixels:
@@ -218,7 +217,7 @@ for (auto y = 0; y &lt; g_scHeight; y++)
         An object in 3D space will be made of many triangles, and vertices coordinate won't start from x, y, w NDC space. 
         Let's take a look of the whole space transformation pipeline with this image from learnOpenGL:</p>
 
-      <img class="post-image" src="../thumbnails/matrix.png" alt="matrix diagram (thay đường dẫn nếu cần)">
+      <img class="post-image" src="../images/ras5.png" alt="learnOpenGL.com">
 
       <p>What we covered in part 1 is stage 4 and 5, which we declared 3 vertices in NDC space, then transform it into screen space. 
         Now we need to start from the beginning, 
@@ -293,7 +292,7 @@ InitializeSceneObjects(objects);
         That's our model matrix. For now we are just declaring the properties, 
         we are not transforming them until we have view matrix and projection matrix too. 
         Now let's define those 2:</p>
-      <img class="post-image" src="../thumbnails/matrix.png" alt="matrix diagram (thay đường dẫn nếu cần)">
+      <img class="post-image" src="../images/ras6.png" alt="">
 
       <div class="code-snippet">
         <pre><code>// Build view & projection matrices (right-handed sysem)
