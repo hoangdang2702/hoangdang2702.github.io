@@ -116,7 +116,7 @@
       <!-- CODE SNIPPET: Dán code GLSL / C++ / Python vào bên trong <pre> dưới đây.
            Nếu code của bạn có dấu "<", hãy thay bằng "&lt;" để tránh lỗi HTML -->
       <div class="code-snippet">
-        <pre><code>// 2DH (x, y, w) coordinates of our triangle's vertices, in counter-clockwise order
+        <pre><code>// our first triangle
 
 glm::vec3 v0(-0.5, 0.5, 1.0);
 
@@ -133,16 +133,12 @@ glm::vec3 v2(0.0, -0.5, 1.0);</code></pre>
       </p>
       </div>
     <div class="code-snippet">
-        <pre><code>// Transform a given vertex in NDC [-1,1] to raster-space [0, {w|h}]
-
+        <pre><code>// NDC to raster function definition
 #define TO_RASTER(v) glm::vec3((g_scWidth * (v.x + 1.0f) / 2), (g_scHeight * (v.y + 1.f) / 2), 1.0f)
 
-// Apply viewport transformation
-
+// apply
 v0 = TO_RASTER(v0);
-
 v1 = TO_RASTER(v1);
-
 v2 = TO_RASTER(v2);</code></pre>
       </div>
     <div class="section">
@@ -176,12 +172,12 @@ v2 = TO_RASTER(v2);</code></pre>
       </p>
       </div>
     <div class="code-snippet">
-        <pre><code>// Start rasterizing by looping over pixels to output a per-pixel color
+        <pre><code>
 for (auto y = 0; y &lt; g_scHeight; y++)
 {
     for (auto x = 0; x &lt; g_scWidth; x++)
     {
-        // Sample location at the center of each pixel
+        // correct position of pixels
         glm::vec3 sample = { x + 0.5f, y + 0.5f, 1.0f };
 
         // Evaluate edge functions at every fragment
@@ -189,7 +185,7 @@ for (auto y = 0; y &lt; g_scHeight; y++)
         float` `beta = glm::dot(E1, sample);
         float` `gamma = glm::dot(E2, sample);
 
-        // If sample is "inside" of all three half-spaces bounded by the three edges of our triangle, it's 'on' the triangle
+        
         if ((alpha >= 0.0f) && (beta >= 0.0f) && (gamma >= 0.0f))
         {
             frameBuffer[x + y * g_scWidth] = glm::vec3(1, 0, 0);
@@ -229,7 +225,7 @@ for (auto y = 0; y &lt; g_scHeight; y++)
       First, let's setup the vertices:</p>
       
       <div class="code-snippet">
-        <pre><code>// Setup vertices & indices to draw an indexed cube
+        <pre><code>// our cube
 
 glm::vec3 vertices[] =
 {
@@ -257,7 +253,7 @@ uint32_t` `indices[] ={
       <div class="code-snippet">
         <pre><code>void InitializeSceneObjects(std::vector<glm::mat4>& objects)
 {
-    // Construct a scene of few cubes randomly positioned
+    4 different cubes from our original one
     const` `glm::mat4 identity(1.f);
 
     glm::mat4 M0 = glm::translate(identity, glm::vec3(0, 0, 2.f));
@@ -295,7 +291,7 @@ InitializeSceneObjects(objects);
       <img class="post-image" src="../images/ras6.png" alt="">
 
       <div class="code-snippet">
-        <pre><code>// Build view & projection matrices (right-handed sysem)
+        <pre><code>// view and projection
 float nearPlane = 0.1f;
 float farPlane = 100.f;
 glm::vec3 eye(0, 3.75, 6.5);
@@ -346,13 +342,12 @@ glm::vec4 v2Clip = VS(v2, objects[n], view, proj);</code></pre>
         and the second reason is division is much more slower than addition or multiplication without the architecture of a GPU.</p>
 
       <div class="code-snippet">
-        <pre><code>// Apply viewport transformation
+        <pre><code>
 
 glm::vec4 v0Homogen = TO_RASTER(v0Clip);
 glm::vec4 v1Homogen = TO_RASTER(v1Clip);
 glm::vec4 v2Homogen = TO_RASTER(v2Clip);
 
-// Base vertex matrix
 glm::mat3 M =
 {
     // Notice that glm is itself column-major
