@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,10 +39,27 @@
 
     main {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 25px;
-      padding-bottom: 40px;
+      flex-direction: row;
+      justify-content: center;
+      gap: 40px;
+      padding: 0 20px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* --- Nhóm bài viết --- */
+    .post-group {
+      flex: 1;
+      max-width: 600px;
+    }
+
+    .group-title {
+      color: #ffcc00;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #333;
+      text-align: center;
     }
 
     .post {
@@ -53,20 +70,21 @@
       background: #1e1e1e;
       padding: 15px;
       border-radius: 12px;
-      width: 90%;
-      max-width: 700px;
-      transition: transform 0.3s;
+      margin-bottom: 20px;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
 
     .post:hover {
       transform: translateY(-4px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
     }
 
     .post img {
-      width: 200px;
-      height: 200px;
+      width: 150px;
+      height: 150px;
       object-fit: cover;
       border-radius: 10px;
+      border: 2px solid #333;
     }
 
     .post-info {
@@ -83,10 +101,24 @@
     .post-info p {
       margin: 8px 0 0;
       color: #ccc;
+      line-height: 1.4;
     }
 
     a {
       text-decoration: none;
+    }
+
+    /* Responsive design */
+    @media (max-width: 900px) {
+      main {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .post-group {
+        width: 100%;
+        max-width: 600px;
+      }
     }
   </style>
 </head>
@@ -98,17 +130,36 @@
     <p>i do tech art: focusing on shaders, rendering, optimization, look dev. this blog is my rubber duck</p>
   </header>
 
-  <!-- Danh sách bài post -->
+  <!-- Danh sách bài post được chia nhóm -->
   <main>
-    <a href="posts/Rasterizer.html" class="post">
-      <img src="thumbnails/raster.png" alt="rasterizer">
-      <div class="post-info">
-        <h3>CPU-based Rasterizer</h3>
-        <p> build a simple software rasterizer with less than 500 lines of C++, implementing 2D homogeneous coordinates </p>
-      </div>
-    </a>
+    <!-- Nhóm 1: Shaders & Rendering -->
+    <div class="post-group">
+      <h2 class="group-title">Core concepts explained</h2>
+      
+      <a href="posts/Rasterizer.html" class="post">
+        <img src="thumbnails/raster.png" alt="rasterizer">
+        <div class="post-info">
+          <h3>CPU-based Rasterizer</h3>
+          <p>Build a simple software rasterizer with less than 500 lines of C++, implementing 2D homogeneous coordinates</p>
+        </div>
+      </a>
 
-    
+    </div>
+
+    <!-- Nhóm 2: Optimization & Look Dev -->
+    <div class="post-group">
+      <h2 class="group-title">Look Dev</h2>
+      
+      <a href="posts/Optimization.html" class="post">
+        <img src="thumbnails/optimization.png" alt="optimization">
+        <div class="post-info">
+          <h3>placeholder test</h3>
+          <p>placeholder test</p>
+        </div>
+      </a>
+
+      
+    </div>
   </main>
 
 </body>
