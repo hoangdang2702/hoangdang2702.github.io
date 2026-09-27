@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HOANG DANG - Portfolio</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #131313;
+      color: #f8f8f8;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* BỐ CỤC CHÍNH */
+    .page-container {
+      display: flex;
+      max-width: 1800px;
+      margin: 0 auto;
+      padding: 40px 3% 80px 2%;
+      gap: 40px;
+    }
+
+    /* KHỐI GIỚI THIỆU BÊN TRÁI */
+    .profile-sidebar {
+      flex: 0 0 16%;
+      min-width: 240px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .profile-name {
+      font-size: 29px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #ffffff;
+      line-height: 1.1;
+      margin: 0;
+    }
+
+    .profile-image-wrapper {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      border-radius: 4px;
+      overflow: hidden;
+      background-color: #222222;
+      margin-top: 5px;
+    }
+
+    .profile-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .profile-title {
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: lowercase;
+      color: #aaaaaa;
+      margin: 0;
+    }
+
+    .profile-bio {
+      font-size: 18px;
+      color: #b0b0b0;
+      font-weight: 300;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* PHẦN CONTACT BÊN DƯỚI BIO */
+    .profile-contact {
+      font-size: 14px;
+      color: #888888;
+      font-weight: 400;
+      margin-top: 5px;
+      word-break: break-all;
+    }
+
+    .profile-contact a {
+      color: #ffffff;
+      text-decoration: underline;
+      transition: color 0.2s ease;
+    }
+
+    .profile-contact a:hover {
+      color: #aaaaaa;
+    }
+
+    /* KHỐI PORTFOLIO BÊN PHẢI */
+    .portfolio-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* BỘ LỌC CHECKBOX */
+    .filter-checkbox-group {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 25px;
+    }
+
+    .filter-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #777777;
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.3s ease;
+    }
+
+    .filter-label input[type="checkbox"] {
+      display: none;
+    }
+
+    .custom-box {
+      width: 14px;
+      height: 14px;
+      border: 1.5px solid #555555;
+      border-radius: 2px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .filter-label:hover {
+      color: #ffffff;
+    }
+    .filter-label:hover .custom-box {
+      border-color: #aaaaaa;
+    }
+
+    .filter-label input[type="checkbox"]:checked ~ .custom-box {
+      background-color: #ffffff;
+      border-color: #ffffff;
+    }
+
+    .filter-label input[type="checkbox"]:checked ~ .custom-box::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 6px;
+      height: 6px;
+      background-color: #131313;
+      transform: translate(-50%, -50%);
+      border-radius: 1px;
+    }
+
+    .filter-label input[type="checkbox"]:checked ~ .filter-text {
+      color: #ffffff;
+      font-weight: 500;
+    }
+
+    .filter-text {
+      font-weight: 400;
+      transition: font-weight 0.2s ease;
+    }
+
+    /* GRID PORTFOLIO */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .project-card {
+      position: relative;
+      display: block;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background-color: #1a1a1a;
+      transition: transform 0.3s ease, z-index 0.3s ease;
+    }
+
+    .project-card.hide {
+      display: none;
+    }
+
+    .project-card:hover {
+      transform: scale(1.02);
+      z-index: 2;
+    }
+
+    /* CHUYỂN CSS SANG ĐỊNH DẠNG VIDEO */
+    .project-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none; /* Tránh video đè lên sự kiện click của thẻ <a> */
+    }
+
+    .project-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0) 100%);
+      pointer-events: none;
+    }
+
+    .project-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #ffffff;
+      margin: 0;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9), 0 0 8px rgba(0, 0, 0, 0.7);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .project-icons {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+
+    .project-icons img {
+      width: 15px;
+      height: 15px;
+      object-fit: contain;
+      filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.9));
+    }
+
+    /* NÚT BACK TO TOP */
+    #backToTopBtn {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      z-index: 99;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      outline: none;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: all 0.3s ease;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    #backToTopBtn:hover {
+      background-color: #ffffff;
+      color: #131313;
+      transform: translateY(-3px);
+    }
+
+    #backToTopBtn.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1400px) {
+      .portfolio-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 1000px) {
+      .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .page-container {
+        flex-direction: column;
+        padding: 30px 15px;
+        gap: 30px;
+      }
+
+      .profile-sidebar {
+        flex: unset;
+        width: 100%;
+        max-width: 450px;
+        margin: 0 auto;
+      }
+
+      .portfolio-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 5px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
+      }
+
+      #backToTopBtn {
+        bottom: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-container">
+    
+    <!-- KHỐI GIỚI THIỆU CÁ NHÂN -->
+    <aside class="profile-sidebar">
+      <h1 class="profile-name">HOANG DANG</h1>
+      
+      <div class="profile-image-wrapper">
+        <img src="images/portrait.jpg" alt="Hoang Dang">
+      </div>
+
+      <div class="profile-title">Real-time VFX artist</div>
+      
+      <p class="profile-bio">
+        Stylized & 2D VFX<br>
+        High-fidelity VFX<br>
+        Shader<br>
+        Gameplay Techart
+      </p>
+
+      <div class="profile-contact">
+        <a href="mailto:hoangdang270200@gmail.com">hoangdang270200@gmail.com</a>
+      </div>
+    </aside>
+
+    <!-- KHỐI PORTFOLIO -->
+    <main class="portfolio-content">
+      
+      <div class="filter-checkbox-group">
+        <label class="filter-label">
+          <input type="checkbox" value="vfx" class="filter-checkbox">
+          <div class="custom-box"></div>
+          <span class="filter-text">VFX</span>
+        </label>
+        
+        <label class="filter-label">
+          <input type="checkbox" value="techart" class="filter-checkbox">
+          <div class="custom-box"></div>
+          <span class="filter-text">Technical Art</span>
+        </label>
+      </div>
+      
+      <div class="portfolio-grid" id="portfolioGrid"></div>
+
+    </main>
+
+  </div>
+
+  <button id="backToTopBtn" title="Go to top">↑</button>
+
+  <script>
+    // =========================================================================
+    // KHỐI DỮ LIỆU PORTFOLIO: ĐỔI "gif" THÀNH "video" (.mp4)
+    // =========================================================================
+    const projectsData = [
+      {
+        order: 1,
+        href: "posts/1/1.html",
+        category: "techart",
+        video: "posts/1/1.mp4",
+        title: "Mesh grid Fog of war",
+        icons: ["unity.png", "csharp.png"]
+      },
+      {
+        order: 2,
+        href: "posts/2/2.html",
+        category: "techart",
+        video: "posts/2/1.mp4",
+        title: "Stylized Water Shader",
+        icons: ["unity.png",]
+      },
+      {
+        order: 3,
+        href: "#",
+        category: "techart",
+        video: "previews/1.mp4", 
+        title: "buh",
+        icons: ["unreal.png"]
+      },
+      {
+        order: 4,
+        href: "#",
+        category: "vfx techart",
+        video: "previews/1.mp4",
+        title: "buh",
+        icons: ["pts.png"]
+      },
+    ];
+
+    // =========================================================================
+    // HÀM RENDER GRID THAY THẾ THẺ <img> THÀNH THẺ <video> TỰ PHÁT LẶP LẠI
+    // =========================================================================
+    function renderPortfolioGrid() {
+      const grid = document.getElementById("portfolioGrid");
+      const sortedProjects = [...projectsData].sort((a, b) => a.order - b.order);
+      
+      grid.innerHTML = sortedProjects.map(project => {
+        const iconsHTML = project.icons && project.icons.length > 0 
+          ? `<div class="project-icons">
+              ${project.icons.map(icon => `<img src="icons/${icon}" alt="tool icon">`).join('')}
+             </div>`
+          : '';
+
+        return `
+          <a href="${project.href}" class="project-card" data-category="${project.category}">
+            <video class="project-video" autoplay loop muted playsinline preload="metadata">
+              <source src="${project.video}" type="video/mp4">
+            </video>
+            <div class="project-overlay">
+              <h3 class="project-title">${project.title}</h3>
+              ${iconsHTML}
+            </div>
+          </a>
+        `;
+      }).join('');
+    }
+
+    renderPortfolioGrid();
+
+    // LOGIC FILTER VÀ BACK TO TOP
+    const backToTopBtn = document.getElementById("backToTopBtn");
+    const checkboxes = document.querySelectorAll(".filter-checkbox");
+
+    window.onscroll = function() {
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        backToTopBtn.classList.add("show");
+      } else {
+        backToTopBtn.classList.remove("show");
+      }
+    };
+    backToTopBtn.addEventListener("click", function() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    function applyFilter() {
+      const activeFilters = [];
+      checkboxes.forEach(cb => {
+        if (cb.checked) {
+          activeFilters.push(cb.value);
+        }
+      });
+
+      const projectCards = document.querySelectorAll(".project-card");
+      projectCards.forEach(card => {
+        const cardCategory = card.getAttribute("data-category");
+
+        if (activeFilters.length === 0) {
+          card.classList.remove("hide");
+          return;
+        }
+
+        const isMatch = activeFilters.every(filter => cardCategory.includes(filter));
+        
+        if (isMatch) {
+          card.classList.remove("hide");
+        } else {
+          card.classList.add("hide");
+        }
+      });
+    }
+
+    checkboxes.forEach(cb => {
+      cb.addEventListener("change", applyFilter);
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article Title – HOANG DANG Tech Art</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #131313;
+      color: #f8f8f8;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      margin: 0;
+      padding: 0;
+      line-height: 1.8;
+      scroll-behavior: smooth;
+    }
+
+    /* Khung chứa bài viết */
+    .article-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 80px 20px;
+    }
+
+    /* Tiêu đề bài viết lớn */
+    .article-title {
+      font-size: 42px;
+      font-weight: 200;
+      text-transform: uppercase;
+      margin-bottom: 50px;
+      letter-spacing: 1px;
+      line-height: 1.3;
+      border-bottom: 1px solid #252525;
+      padding-bottom: 20px;
+    }
+
+    /* Khung luồng nội dung xếp chồng dọc */
+    .content-stream {
+      display: flex;
+      flex-direction: column;
+      gap: 35px;
+    }
+
+    /* Định dạng văn bản bài viết */
+    .post-text {
+      font-size: 15px;
+      color: #adadad;
+      margin: 0;
+      text-align: justify;
+    }
+
+    /* Định dạng khối Media Block */
+    .post-media-block {
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+    }
+
+    /* Bổ sung hiệu ứng con trỏ zoom-in khi bấm xem ảnh gốc */
+    .post-media-block a.image-zoom-link {
+      display: block;
+      width: 100%;
+      cursor: zoom-in;
+    }
+
+    .post-media-block img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 4px;
+      transition: opacity 0.2s ease;
+    }
+
+    .post-media-block a.image-zoom-link:hover img {
+      opacity: 0.9;
+    }
+
+    .post-media-block video {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 4px;
+      background-color: #1a1a1a;
+    }
+
+    /* =========================================================================
+       NÚT LÊN ĐẦU TRANG (BACK TO TOP) - GIỮ NGUYÊN GỐC TỪ INDEX
+       ========================================================================= */
+    #backToTopBtn {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      z-index: 99;
+      background-color: #1e1e1e;
+      color: #777777;
+      border: 1px solid #333333;
+      outline: none;
+      cursor: pointer;
+      width: 45px;
+      height: 45px;
+      border-radius: 4px;
+      font-size: 18px;
+      transition: all 0.3s ease;
+      opacity: 0;
+      visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #backToTopBtn:hover {
+      background-color: #ffffff;
+      color: #131313;
+      border-color: #ffffff;
+    }
+
+    #backToTopBtn.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* =========================================================================
+       NÚT QUAY LẠI TRANG CHỦ (BACK TO HOME) - CỐ ĐỊNH BÊN TRÁI, HIỆN NGAY TỪ ĐẦU
+       ========================================================================= */
+    #backToHomeBtn {
+      position: fixed;
+      top: 40px;           /* Đặt ở góc trên bên trái để dễ nhìn khi vừa vào bài viết */
+      left: 40px;
+      z-index: 100;
+      background-color: #1e1e1e;
+      color: #777777;
+      border: 1px solid #333333;
+      text-decoration: none;
+      width: 45px;
+      height: 45px;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    #backToHomeBtn:hover {
+      background-color: #ffffff;
+      color: #131313;
+      border-color: #ffffff;
+    }
+
+    /* Tối ưu responsive: Khi màn hình hẹp, đẩy các nút trượt để tránh đè lên chữ */
+    @media (max-width: 1100px) {
+      #backToHomeBtn {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+      }
+      .article-container {
+        padding: 80px 20px 40px 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .article-container {
+        padding: 80px 20px 40px 20px;
+      }
+      .article-title {
+        font-size: 30px;
+        margin-bottom: 30px;
+      }
+      #backToTopBtn {
+        bottom: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="../index.html" id="backToHomeBtn" title="Back to Projects">←</a>
+
+  <div class="article-container">
+    <h1 class="article-title" id="postTitle"></h1>
+    <div class="content-stream" id="postContentStream"></div>
+  </div>
+
+  <button id="backToTopBtn" title="Go to top">↑</button>
+
+  <script>
+    // =========================================================================
+    // MẢNG DỮ LIỆU BÀI VIẾT (ARTICLE DATA ARRAY)
+    // CÁCH NẠP ÁNH XEM TRỰC TIẾP & ÁNH GỐC FULL HD:
+    // - src: Ảnh preview nhẹ hiển thị trên trang bài viết (ví dụ ~2500px)
+    // - fullSrc: Ảnh gốc nét căng 12000px mở ra tab mới khi bấm vào
+    // =========================================================================
+    const articleData = {
+      title: "Mesh grid Fog of war", 
+      
+      blocks: [
+        {
+          type: "video",
+          src: "1.mp4", 
+          size: "700px" 
+        },
+        {
+          type: "text",
+          content: "This Fog of War feature is mesh based, using object pooling and render target. Meshes will have their own fixed world position, they don't follow the player, will only appear/dissappear base on the character's position, thanks to the render target data."
+        },
+        {
+          type: "video",
+          src: "3.mp4", 
+          size: "700px" 
+        },
+        {
+          type: "text",
+          content: "Parameter:<br>- Vision radius <br> - Vision softness (decides how smooth is the transition of fog) <br> - Clouds' idle animation speed <br> - Light and shadow color <br> - Rim line color (works a bit differently, needs to be bright for the rimline to be dark, explained below) <br> - Depth fade"
+        },
+        {
+          type: "image",
+          src: "4.png",
+          fullSrc: "", 
+          size: "100%" 
+        },
+        {
+          type: "text",
+          content: "- Render target texture will represent the whole map and it will be black. This round shape represents the player's vision. The player moves and this round shape will paint white on the render texture, that's how we get the player's vision data in realtime.<br>- It was made to be smooth, so the edge will have a 0-1 data range, so fog meshes can base on that to decide their scales. <br> - Make a round shape by calculating the distance of pixels to the center of UV, than invert it. <br>- The edge is the result of smoothstep between A and B in which A is radius, and B is radius + softness. Both radius and softness is divided by 50, because the distance in game world may be large, but here it's just UV coordinate, so this will make it easier for artist to adjust the parameter."
+        },
+        {
+          type: "image",
+          src: "6.png",
+          fullSrc: "", 
+          size: "100%" 
+        },
+        {
+          type: "text",
+          content: "We can access the render target from shader graph and decide what to do with that 0-1 data map."
+        },
+        {
+          type: "image",
+          src: "7.png",
+          fullSrc: "", 
+          size: "100%" 
+        },
+        {
+          type: "text",
+          content: "- We need to find the position of a fog mesh instance, of a vertex, of even a pixel in that render texture map. <br> - We can do that by finding out where it is in the game world map first, than remap that value in to a 0-1 range. That's it! <br> - But my idea is to have the meshes outside the player's vision to have 1.0 scale (means that it's active, that it's foggy at that position) and the fog meshes in the area within that radius to have 0.0 scale (means that it's clear and the player can see). <br> - So we need to invert the values. Than this data is use to multiply with VERTEX LOCAL POSITION, that's how we scale the mesh."
+        },
+        {
+          type: "image",
+          src: "9.png",
+          fullSrc: "", 
+          size: "100%" 
+        },
+        {
+          type: "text",
+          content: "- The scale changes above will be multiplied with some size variation (from position-based noise)"
+        },
+        {
+          type: "image",
+          src: "11.png",
+          fullSrc: "", 
+          size: "100%" 
+        },
+        {
+          type: "text",
+          content: "- After vertex position changes are done. We need to deal with rotation variation noise next. The idea is the same with scale variation. <br> - But after doing rotation with vertices, we need to do that exact same operation with normal vectors, or the lighting calculation will be all over the place."
+        },
+        {
+          type: "image",
+          src: "13.png",
+          fullSrc: "", 
+          size: "100%" 
+        },
+        {
+          type: "text",
+          content: "- Simple cel shading technique. <br> - Here I use a value map so it can be manipulated/painted easily. But achieving cel shading with the floor node technique is also good. <br> - It doesn't look cel shaded here but it used to do, I just smooth out the texture map because it looks better with the smooth light/shadow transition I did later." 
+        },
+        {
+          type: "image",
+          src: "15.png",
+          fullSrc: "", 
+          size: "100%" 
+        },
+        {
+          type: "text",
+          content: "- The last thing is the outer dark line. I wanted to add this because the shadow area is too flat and I thought some lineart would help.<br> - Simple fresnel, invert it. <br> - After that, to blend it with our color, I just use the subtract node. I could take out a mask and do another lerp so it can be more controlled, but our fog of war's shadow is dark anyway, so the line should be darker, closer to black. So subtracting is fine here I think!"
+        }
+      ]
+    };
+
+    // --- Hàm xử lý đọc mảng Logic và Render dữ liệu ra HTML ---
+    function renderArticle() {
+      document.getElementById("postTitle").innerText = articleData.title;
+      document.title = `${articleData.title} – HOANG DANG Tech Art`;
+
+      const streamContainer = document.getElementById("postContentStream");
+      
+      streamContainer.innerHTML = articleData.blocks.map(block => {
+        if (block.type === "text") {
+          return `<p class="post-text">${block.content}</p>`;
+        } 
+        
+        if (block.type === "image") {
+          const fullImage = block.fullSrc || block.src; // Lấy fullSrc, nếu k có thì lấy lại src
+          return `
+            <div class="post-media-block" style="width: ${block.size || '100%'}">
+              <a href="${fullImage}" target="_blank" class="image-zoom-link" title="Click to view full original resolution">
+                <img src="${block.src}" alt="Portfolio Component">
+              </a>
+            </div>
+          `;
+        }
+
+        if (block.type === "gif") {
+          return `
+            <div class="post-media-block" style="width: ${block.size || '100%'}">
+              <img src="${block.src}" alt="Portfolio Component">
+            </div>
+          `;
+        } 
+        
+        if (block.type === "video") {
+          return `
+            <div class="post-media-block" style="width: ${block.size || '100%'}">
+              <video autoplay loop muted playsinline>
+                <source src="${block.src}" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          `;
+        }
+        return '';
+      }).join('');
+    }
+
+    // Thực thi nạp bài viết
+    renderArticle();
+
+    // =========================================================================
+    // LOGIC ĐIỀU KHIỂN NÚT BACK TO TOP (GIỮ NGUYÊN GỐC TỪ INDEX.HTML)
+    // =========================================================================
+    const backToTopBtn = document.getElementById("backToTopBtn");
+    
+    window.onscroll = function() {
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        backToTopBtn.classList.add("show");
+      } else {
+        backToTopBtn.classList.remove("show");
+      }
+    };
+    
+    backToTopBtn.addEventListener("click", function() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+
+</body>
+</html>

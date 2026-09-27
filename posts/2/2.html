@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article Title – HOANG DANG Tech Art</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #131313;
+      color: #f8f8f8;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      margin: 0;
+      padding: 0;
+      line-height: 1.8;
+      scroll-behavior: smooth;
+    }
+
+    /* Khung chứa bài viết */
+    .article-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 80px 20px;
+    }
+
+    /* Tiêu đề bài viết lớn */
+    .article-title {
+      font-size: 42px;
+      font-weight: 200;
+      text-transform: uppercase;
+      margin-bottom: 50px;
+      letter-spacing: 1px;
+      line-height: 1.3;
+      border-bottom: 1px solid #252525;
+      padding-bottom: 20px;
+    }
+
+    /* Khung luồng nội dung xếp chồng dọc */
+    .content-stream {
+      display: flex;
+      flex-direction: column;
+      gap: 35px;
+    }
+
+    /* Định dạng văn bản bài viết */
+    .post-text {
+      font-size: 15px;
+      color: #adadad;
+      margin: 0;
+      text-align: justify;
+    }
+
+    /* Định dạng khối Media Block */
+    .post-media-block {
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+    }
+
+    /* Bổ sung hiệu ứng con trỏ zoom-in khi bấm xem ảnh gốc */
+    .post-media-block a.image-zoom-link {
+      display: block;
+      width: 100%;
+      cursor: zoom-in;
+    }
+
+    .post-media-block img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 4px;
+      transition: opacity 0.2s ease;
+    }
+
+    .post-media-block a.image-zoom-link:hover img {
+      opacity: 0.9;
+    }
+
+    .post-media-block video {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 4px;
+      background-color: #1a1a1a;
+    }
+
+    /* =========================================================================
+       NÚT LÊN ĐẦU TRANG (BACK TO TOP) - GIỮ NGUYÊN GỐC TỪ INDEX
+       ========================================================================= */
+    #backToTopBtn {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      z-index: 99;
+      background-color: #1e1e1e;
+      color: #777777;
+      border: 1px solid #333333;
+      outline: none;
+      cursor: pointer;
+      width: 45px;
+      height: 45px;
+      border-radius: 4px;
+      font-size: 18px;
+      transition: all 0.3s ease;
+      opacity: 0;
+      visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #backToTopBtn:hover {
+      background-color: #ffffff;
+      color: #131313;
+      border-color: #ffffff;
+    }
+
+    #backToTopBtn.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* =========================================================================
+       NÚT QUAY LẠI TRANG CHỦ (BACK TO HOME) - CỐ ĐỊNH BÊN TRÁI, HIỆN NGAY TỪ ĐẦU
+       ========================================================================= */
+    #backToHomeBtn {
+      position: fixed;
+      top: 40px;           /* Đặt ở góc trên bên trái để dễ nhìn khi vừa vào bài viết */
+      left: 40px;
+      z-index: 100;
+      background-color: #1e1e1e;
+      color: #777777;
+      border: 1px solid #333333;
+      text-decoration: none;
+      width: 45px;
+      height: 45px;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    #backToHomeBtn:hover {
+      background-color: #ffffff;
+      color: #131313;
+      border-color: #ffffff;
+    }
+
+    /* Tối ưu responsive: Khi màn hình hẹp, đẩy các nút trượt để tránh đè lên chữ */
+    @media (max-width: 1100px) {
+      #backToHomeBtn {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+      }
+      .article-container {
+        padding: 80px 20px 40px 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .article-container {
+        padding: 80px 20px 40px 20px;
+      }
+      .article-title {
+        font-size: 30px;
+        margin-bottom: 30px;
+      }
+      #backToTopBtn {
+        bottom: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="../index.html" id="backToHomeBtn" title="Back to Projects">←</a>
+
+  <div class="article-container">
+    <h1 class="article-title" id="postTitle"></h1>
+    <div class="content-stream" id="postContentStream"></div>
+  </div>
+
+  <button id="backToTopBtn" title="Go to top">↑</button>
+
+  <script>
+    // =========================================================================
+    // MẢNG DỮ LIỆU BÀI VIẾT (ARTICLE DATA ARRAY)
+    // CÁCH NẠP ÁNH XEM TRỰC TIẾP & ÁNH GỐC FULL HD:
+    // - src: Ảnh preview nhẹ hiển thị trên trang bài viết (ví dụ ~2500px)
+    // - fullSrc: Ảnh gốc nét căng 12000px mở ra tab mới khi bấm vào
+    // =========================================================================
+    const articleData = {
+      title: "Stylized water shader", 
+      
+      blocks: [
+        {
+          type: "video",
+          src: "1.mp4", 
+          size: "700px" 
+        },
+        {
+          type: "text",
+          content: "- Using Unity URP unlit shader, with simplified PBR lighting models <br> - Flowmap distortion for normal vectors. <br> - Scene depth color (only 2: shallow and deep) <br> - Shore foam from depth distance <br> - Gerstner Wave for vertex displacement"
+        },
+        {
+          type: "video",
+          src: "3.mp4", 
+          size: "700px" 
+        },
+        {
+          type: "text",
+          content: "Customizables:<br> - flowmap (speed, tiling, height, flow texture, normal texture)<br> - Light (light color, specular/diffuse/reflection parameters, bloom)<br> - Water color (shallow and deep color, distance, water opacity) - Shore foam (where it starts, ends, how wide it is, softness, noise scale/intensity,...)<br> - Vertex displacement (speed, height, and 3 waves vector)"
+        },
+        {
+          type: "image",
+          src: "full.png", // Ảnh preview hiển thị trên bài
+          fullSrc: "", // Ảnh gốc 12000px khi bấm vào (Nó tự lấy src nếu bỏ trống)
+          size: "100%" 
+        },
+        {
+          type: "text",
+          content: "FULL GRAPH"
+        },
+        {
+          type: "image",
+          src: "5.png", // Ảnh preview hiển thị trên bài
+          fullSrc: "", // Ảnh gốc 12000px khi bấm vào (Nó tự lấy src nếu bỏ trống)
+          size: "100%" 
+        },
+        {
+          type: "text",
+          content: "Normal vector/Flowmap distortion: I learned everything from this tutorial from <a href='https://catlikecoding.com/unity/tutorials/flow/' target='_blank' class='post-link'>catlikecoding</a>. Basically, we use a derivatives map instead of a usual normal map because those won't lost information when we add a phase with another offset phase. Derivatives map decides the surface/shape of water. Flowmap is for motion.<br> The outcome of this stage is the normal vectors, which will be use for lighting calculation."
+        },
+        {
+          type: "image",
+          src: "6.png", // Ảnh preview hiển thị trên bài
+          fullSrc: "", // Ảnh gốc 12000px khi bấm vào (Nó tự lấy src nếu bỏ trống)
+          size: "100%" 
+        },
+        {
+          type: "text",
+          content: "Flowmap subgraph"
+        },
+        {
+          type: "image",
+          src: "8.png", // Ảnh preview hiển thị trên bài
+          fullSrc: "", // Ảnh gốc 12000px khi bấm vào (Nó tự lấy src nếu bỏ trống)
+          size: "100%" 
+        },
+        {
+          type: "text",
+          content: "Lighting models:<br> - Since we don't use URP Lit shader but the Unlit, we need to customize the operation between LIGHT VECTOR and NORMAL VECTOR.<br> - There's no normal vector node in Unlit shader, and we will use the normal vector calculated from the previous normal/flowmap stage.<br> - For simplicity, our shader will take only one source of light, which is our scene's main light. Or we can fake a light vector for even more simplicity, all works. <br><br> There are 4 types of lighting: direct specular, direct diffuse, indirect diffuse, indirect specular.<br> - In this project, I kind of combine direct diffuse and indirect diffuse in a group. Because I think indirect diffuse is just environment color (I just fake environment color as solid colors. That color will represent the sky and ground, using the Y of the normal vector to decide the lerp.)<br> - And direct diffuse is just indirect diffuse ADDING light color * direct diffuse model. I use simple Phong for direct diffuse model. <br> - Next is direct specular. I use a very simple PBR lighting model for the sake of optimization. It does not involve any type of enery conservation. <br> - I want to achieve hard or close to hard edge for the specular shape so I used a smoothstep with very small difference between 2 thresh holds. After that, I plugged some bloom in. <br> - For indirect specular, I use fresnel, reflection probe. <br> - In my opinion, the direct specular and indirect specular are the 2 most important lights because they are very strong, they can single-handedly create water shape. That's why for indirect specular, I used reflection probe to get environment's color, instead of just faking one. But for diffuse, it's very subtle so a fake color is fine."
+        },
+        {
+          type: "image",
+          src: "10.png", // Ảnh preview hiển thị trên bài
+          fullSrc: "", // Ảnh gốc 12000px khi bấm vào (Nó tự lấy src nếu bỏ trống)
+          size: "100%" 
+        },
+        {
+          type: "text",
+          content: "- Very standard scene depth color."
+        },
+        {
+          type: "image",
+          src: "12.png", // Ảnh preview hiển thị trên bài
+          fullSrc: "", // Ảnh gốc 12000px khi bấm vào (Nó tự lấy src nếu bỏ trống)
+          size: "100%" 
+        },
+        {
+          type: "text",
+          content: "- For shore foam, its input is the depth distance from above, just when the value is very small.<br> - What we manipulate is not that value itself, but the 2 thresh holds of the smoothstep node that it's the input of.<br> - Use time, noise,.. for those 2 thresh holds, we will have noisy shapes. But now, smoothstep doesn't give a clamped shape. So we need 2 smoothstep, offseting from each other by a value which is the width of the foam."
+        },
+        {
+          type: "image",
+          src: "14.png", // Ảnh preview hiển thị trên bài
+          fullSrc: "", // Ảnh gốc 12000px khi bấm vào (Nó tự lấy src nếu bỏ trống)
+          size: "100%" 
+        },
+        {
+          type: "text",
+          content: "- For vertex displacement, I also learned everything from <a href='https://catlikecoding.com/unity/tutorials/flow/' target='_blank' class='post-link'>catlikecoding</a>. I only need to make sure the vertices density is high enough to see result."
+        }
+      ]
+    };
+
+    // --- Hàm xử lý đọc mảng Logic và Render dữ liệu ra HTML ---
+    function renderArticle() {
+      document.getElementById("postTitle").innerText = articleData.title;
+      document.title = `${articleData.title} – HOANG DANG Tech Art`;
+
+      const streamContainer = document.getElementById("postContentStream");
+      
+      streamContainer.innerHTML = articleData.blocks.map(block => {
+        if (block.type === "text") {
+          return `<p class="post-text">${block.content}</p>`;
+        } 
+        
+        if (block.type === "image") {
+          const fullImage = block.fullSrc || block.src; // Lấy fullSrc, nếu k có thì lấy lại src
+          return `
+            <div class="post-media-block" style="width: ${block.size || '100%'}">
+              <a href="${fullImage}" target="_blank" class="image-zoom-link" title="Click to view full original resolution">
+                <img src="${block.src}" alt="Portfolio Component">
+              </a>
+            </div>
+          `;
+        }
+
+        if (block.type === "gif") {
+          return `
+            <div class="post-media-block" style="width: ${block.size || '100%'}">
+              <img src="${block.src}" alt="Portfolio Component">
+            </div>
+          `;
+        } 
+        
+        if (block.type === "video") {
+          return `
+            <div class="post-media-block" style="width: ${block.size || '100%'}">
+              <video autoplay loop muted playsinline>
+                <source src="${block.src}" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          `;
+        }
+        return '';
+      }).join('');
+    }
+
+    // Thực thi nạp bài viết
+    renderArticle();
+
+    // =========================================================================
+    // LOGIC ĐIỀU KHIỂN NÚT BACK TO TOP (GIỮ NGUYÊN GỐC TỪ INDEX.HTML)
+    // =========================================================================
+    const backToTopBtn = document.getElementById("backToTopBtn");
+    
+    window.onscroll = function() {
+      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+        backToTopBtn.classList.add("show");
+      } else {
+        backToTopBtn.classList.remove("show");
+      }
+    };
+    
+    backToTopBtn.addEventListener("click", function() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+
+</body>
+</html>
